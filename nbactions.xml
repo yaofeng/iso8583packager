@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Clover</actionName>
+            <displayName>Clover</displayName>
+            <goals>
+                <goal>clover2:setup</goal>
+                <goal>test</goal>
+                <goal>clover2:aggregate</goal>
+                <goal>clover2:clover</goal>
+            </goals>
+        </action>
+    </actions>

@@ -1,0 +1,179 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.inspur.demo</groupId>
+    <artifactId>iso8583packager</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <url>http://maven.apache.org</url>
+    
+    <repositories>
+        <repository>
+            <id>jPOS</id>
+            <url>http://jpos.org/maven/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <symbolicName>${exportedPackage}</symbolicName>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.source.level>1.6</java.source.level>
+        
+        <!-- plugin -->
+        <version.plugin.compiler>2.3.2</version.plugin.compiler>
+        <version.plugin.clover>3.1.2</version.plugin.clover>
+        <maven.clover.licenseLocation>licenses/clover.license</maven.clover.licenseLocation>
+        
+        <!-- compile -->
+        <version.jpos>1.8.4</version.jpos>
+        
+        <!-- logging -->
+        <version.slf4j>1.6.4</version.slf4j>
+        <version.logback>1.0.0</version.logback>
+        
+        <!-- Test -->
+        <version.testng>6.1.1</version.testng>
+    </properties>
+
+    <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>org.jpos</groupId>
+            <artifactId>jpos</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-ext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.testng</groupId> 
+            <artifactId>testng</artifactId> 
+        </dependency>
+    </dependencies>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- compile -->
+            <dependency>
+                <groupId>org.jpos</groupId>
+                <artifactId>jpos</artifactId>
+                <version>${version.jpos}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.1</version>
+            </dependency>
+            
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-ext</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.logback}</version>
+                <scope>runtime</scope>
+            </dependency>
+            
+            <!-- Testing -->
+            <dependency> 
+                <groupId>org.testng</groupId> 
+                <artifactId>testng</artifactId> 
+                <version>${version.testng}</version> 
+                <scope>test</scope> 
+            </dependency> 
+        </dependencies>
+    </dependencyManagement>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.plugin.compiler}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${java.source.level}</source>
+                    <target>${java.source.level}</target>
+                    <complianceLevel>${java.source.level}</complianceLevel>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                    <showDeprecations>true</showDeprecations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover2-plugin</artifactId>
+                <version>${version.plugin.clover}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>setup</id>
+                        <goals>
+                            <goal>setup</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>site</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                            <goal>clover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>ch.qos.cal10n.plugins</groupId>
+                <artifactId>maven-cal10n-plugin</artifactId>
+                <version>0.7.4</version>
+                <executions>
+                    <execution>
+                        <id>verify-i18n-resources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>            
+                            <enumTypes>
+                                <!-- list every enum type you would like to see checked -->
+                                <enumType>com.inspur.demo.message.ExceptionResources</enumType>
+                                <enumType>com.inspur.demo.message.LogResources</enumType>
+                            </enumTypes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
